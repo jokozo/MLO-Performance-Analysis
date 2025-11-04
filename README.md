@@ -27,7 +27,7 @@ In order to run simulations you need to install MATLAB with following libraries:
    Copy and paste the following command into the MATLAB Command Window:  
    **openExample('wlan/BeSystemLevelSimulationUsingEMLSRMultiLinkOperationExample')**.<br>
    This command downloads the directory with an example and helper functions necessary to run simulations from the [MATLAB website](https://www.mathworks.com/help/wlan/ug/802-11be-system-level-simulation-using-emlsr-multi-link-operation.html).
-3. Add files from this repository
+2. Add files from this repository<br>
    Once the directory is created, copy all MATLAB files from this repository into that directory.
-4. Run the simulations.
+3. Run the simulations.
   
