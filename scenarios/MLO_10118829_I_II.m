@@ -56,7 +56,7 @@ function [thr, avgLatency, latency99list] = MLO_10118829_I_II(randnum, simTime, 
 
     else
         
-        apLinkCfg = wlanLinkConfig(BandAndChannel=bandAndChannel,ChannelBandwidth=channelBW,MCS=mcs, NumSpaceTimeStreams=2, NumTransmitAntennas=numLinks, MPDUAggregationLimit=aggregationLimit, TransmitPower=20);
+        apLinkCfg = wlanLinkConfig(BandAndChannel=bandAndChannel,ChannelBandwidth=channelBW,MCS=mcs, NumSpaceTimeStreams=2, NumTransmitAntennas=2, MPDUAggregationLimit=aggregationLimit, TransmitPower=20);
         staEMLSRLinkCfg = wlanLinkConfig(BandAndChannel=bandAndChannel,ChannelBandwidth=channelBW, NumTransmitAntennas=1,NumSpaceTimeStreams=1,MCS=mcs, MPDUAggregationLimit=aggregationLimit, TransmitPower=20);
         
         apMLDCfg = wlanMultilinkDeviceConfig(Mode="AP",LinkConfig=apLinkCfg);
