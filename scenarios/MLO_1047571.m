@@ -21,8 +21,10 @@ function latency = MLO_1047571(randnum, simTime, numSTA, radius, channelBW, band
 
     % Create the link config objects for AP MLD, STR STA MLD
     for linkIdx = 1:numLinks
-        apLinkCfg(linkIdx) = wlanLinkConfig(BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW,MCS=mcs);
-        staSTRLinkCfg(linkIdx) = wlanLinkConfig(BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW,MCS=mcs);
+        apLinkCfg(linkIdx) = wlanLinkConfig(BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW,MCS=mcs, ...
+            NumSpaceTimeStreams=2, NumTransmitAntennas=2);
+        staSTRLinkCfg(linkIdx) = wlanLinkConfig(BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW,MCS=mcs, ...
+            NumSpaceTimeStreams=2, NumTransmitAntennas=2);
     end
 
     % Create MLD config objects for AP MLD, STR STA MLD

@@ -109,11 +109,13 @@ function [thr, latency50, latency99] = MLO_10293865_4a(randnum, simTime, radiusL
     else
         for linkIdx = 1:numLinks
             [staPosition, apPosition] = randomPositionsFermat(1, radiusList(linkIdx));
-            apCfg(linkIdx) = wlanDeviceConfig(Mode="AP", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat=transmissionFormat, MPDUAggregationLimit=aggrLimit);
+            apCfg(linkIdx) = wlanDeviceConfig(Mode="AP", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat=transmissionFormat, MPDUAggregationLimit=aggrLimit, ...
+                NumSpaceTimeStreams=2, NumTransmitAntennas=2);
             apNodes(linkIdx) = wlanNode(Position=apPosition, Name="AP " + linkIdx, DeviceConfig=apCfg, PHYAbstractionMethod=phyAbstraction, MACFrameAbstraction=macAbstraction);
         
             %sta Config
-            staCfg(linkIdx) = wlanDeviceConfig(Mode="STA", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat=transmissionFormat, MPDUAggregationLimit=aggrLimit);
+            staCfg(linkIdx) = wlanDeviceConfig(Mode="STA", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat=transmissionFormat, MPDUAggregationLimit=aggrLimit, ...
+                NumSpaceTimeStreams=2, NumTransmitAntennas=2);
         
             staNodes(linkIdx) = wlanNode(Position=staPosition, Name="STA " + linkIdx, DeviceConfig=staCfg(linkIdx), PHYAbstractionMethod=phyAbstraction, MACFrameAbstraction=macAbstraction);
                

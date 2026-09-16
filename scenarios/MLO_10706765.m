@@ -23,8 +23,10 @@ function [thr, avgLatency] = MLO_10706765(randnum, simTime, radius, radiusList, 
 
     % Create the link config objects for AP MLD, STR STA MLD
     for linkIdx = 1:numLinks
-        apLinkCfg(linkIdx) = wlanLinkConfig(BandAndChannel=bandAndChannel(linkIdx,:),MPDUAggregationLimit=aggrLimit,ChannelBandwidth=channelBW,MCS=mcs,TXOPLimit=txop);
-        staSTRLinkCfg(linkIdx) = wlanLinkConfig(BandAndChannel=bandAndChannel(linkIdx,:),MPDUAggregationLimit=aggrLimit,ChannelBandwidth=channelBW,MCS=mcs,TXOPLimit=txop);
+        apLinkCfg(linkIdx) = wlanLinkConfig(BandAndChannel=bandAndChannel(linkIdx,:),MPDUAggregationLimit=aggrLimit,ChannelBandwidth=channelBW,MCS=mcs,TXOPLimit=txop, ...
+            NumSpaceTimeStreams=2, NumTransmitAntennas=2);
+        staSTRLinkCfg(linkIdx) = wlanLinkConfig(BandAndChannel=bandAndChannel(linkIdx,:),MPDUAggregationLimit=aggrLimit,ChannelBandwidth=channelBW,MCS=mcs,TXOPLimit=txop, ...
+            NumSpaceTimeStreams=2, NumTransmitAntennas=2);
     end
 
     % Create MLD config objects for AP MLD, STR STA MLD
@@ -64,11 +66,13 @@ function [thr, avgLatency] = MLO_10706765(randnum, simTime, radius, radiusList, 
         numSTA = expectedOccupancies(linkIdx) * 10;
         if numSTA > 0
             [staOBSSpositions, apOBSSposition] = randomPositionsFermat(numSTA, radiusList(linkIdx));
-            obssAPCfg = wlanDeviceConfig(Mode="AP", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU");
+            obssAPCfg = wlanDeviceConfig(Mode="AP", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU", ...
+                NumSpaceTimeStreams=2, NumTransmitAntennas=2, MPDUAggregationLimit=aggrLimit);
             apNodes(linkIdx) = wlanNode(Position=apOBSSposition, Name="OBSS AP " + linkIdx, DeviceConfig=obssAPCfg, PHYAbstractionMethod=phyAbstraction, MACFrameAbstraction=macAbstraction);
             
             %sta Config
-            staCfg(linkIdx) = wlanDeviceConfig(Mode="STA", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU");
+            staCfg(linkIdx) = wlanDeviceConfig(Mode="STA", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU", ...
+                NumSpaceTimeStreams=2, NumTransmitAntennas=2, MPDUAggregationLimit=aggrLimit);
             
             [pktSize, dataRate, onTime, offTime] = generateTrafficParamsOBSS(maxThr);
     

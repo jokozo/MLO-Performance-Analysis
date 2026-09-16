@@ -42,8 +42,10 @@ function [thr, latencyMainSTA, avgLatency ] = MLO_9838765(randnum, simTime, radi
                     MACFrameAbstraction=macAbstraction); 
 
     else
-        apSLOCfg = wlanDeviceConfig(Mode="AP", MCS=mcs, BandAndChannel=bandAndChannel(1,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU", MPDUAggregationLimit=aggrLimit);
-        staSLOCfg = wlanDeviceConfig(Mode="STA", MCS=mcs, BandAndChannel=bandAndChannel(1,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU", MPDUAggregationLimit=aggrLimit);
+        apSLOCfg = wlanDeviceConfig(Mode="AP", MCS=mcs, BandAndChannel=bandAndChannel(1,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU", MPDUAggregationLimit=aggrLimit, ...
+            NumSpaceTimeStreams=2, NumTransmitAntennas=2);
+        staSLOCfg = wlanDeviceConfig(Mode="STA", MCS=mcs, BandAndChannel=bandAndChannel(1,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU", MPDUAggregationLimit=aggrLimit, ...
+            NumSpaceTimeStreams=2, NumTransmitAntennas=2);
     
         apNode = wlanNode(Position=apPosition,Name="AP",DeviceConfig=apSLOCfg, PHYAbstractionMethod=phyAbstraction,MACFrameAbstraction=macAbstraction);
         staNode = wlanNode( ...
@@ -70,11 +72,13 @@ function [thr, latencyMainSTA, avgLatency ] = MLO_9838765(randnum, simTime, radi
         %AP OBSS 
         numSTA = expectedOccupancies(linkIdx) * 10;
         [staOBSSpositions, apOBSSposition] = randomPositionsFermat(numSTA, radiusList(linkIdx));
-        obssAPCfg = wlanDeviceConfig(Mode="AP", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU", MPDUAggregationLimit=aggrLimit);
+        obssAPCfg = wlanDeviceConfig(Mode="AP", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU", MPDUAggregationLimit=aggrLimit, ...
+            NumSpaceTimeStreams=2, NumTransmitAntennas=2);
         apNodes(linkIdx) = wlanNode(Position=apOBSSposition, Name="OBSS AP " + linkIdx, DeviceConfig=obssAPCfg, PHYAbstractionMethod=phyAbstraction, MACFrameAbstraction=macAbstraction);
         
         %sta Config
-        staCfg(linkIdx) = wlanDeviceConfig(Mode="STA", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU", MPDUAggregationLimit=aggrLimit);
+        staCfg(linkIdx) = wlanDeviceConfig(Mode="STA", MCS=mcs, BandAndChannel=bandAndChannel(linkIdx,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU", MPDUAggregationLimit=aggrLimit, ...
+            NumSpaceTimeStreams=2, NumTransmitAntennas=2);
         
         [pktSize, dataRate, onTime, offTime] = generateTrafficParamsOBSS(maxThr);
 

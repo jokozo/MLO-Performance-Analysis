@@ -14,11 +14,7 @@ function [thr, latency50, latency99] = MLO_10293865(randnum, simTime, radius, is
     % Band and channel values for each link
     %bandAndChannel = [5 1;5 136];
     numLinks = size(bandAndChannel,1);
-    if isMLO
-        aggrLimit = 1024;
-    else
-        aggrLimit = 256;
-    end
+    aggrLimit = 1024;
 
     
     [staPosition, apPosition] = randomPositionsFermat(1, radius);
@@ -47,7 +43,8 @@ function [thr, latency50, latency99] = MLO_10293865(randnum, simTime, radius, is
                 MACFrameAbstraction=macAbstraction);
 
     else
-        staCfg = wlanDeviceConfig(Mode="STA", BandAndChannel=bandAndChannel(1,:), ChannelBandwidth=channelBW, MCS=mcs,MPDUAggregationLimit=aggrLimit, TransmissionFormat="HE-SU");
+        staCfg = wlanDeviceConfig(Mode="STA", BandAndChannel=bandAndChannel(1,:), ChannelBandwidth=channelBW, MCS=mcs,MPDUAggregationLimit=aggrLimit, TransmissionFormat="EHT-SU", ...
+            NumSpaceTimeStreams=2, NumTransmitAntennas=2);
         staNode = wlanNode( ...
                 Position=staPosition, ...
                 Name="SL STA", ...

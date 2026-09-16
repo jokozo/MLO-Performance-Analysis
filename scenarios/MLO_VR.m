@@ -46,8 +46,10 @@ function latency = MLO_VR(simTime, randnum, radius, channelBW, bandAndChannel, m
         end
 
     else
-        apSLOCfg = wlanDeviceConfig(Mode="AP", MCS=mcs, BandAndChannel=bandAndChannel(1,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU",MPDUAggregationLimit=aggregationLimit);
-        staSLOCfg = wlanDeviceConfig(Mode="STA", MCS=mcs, BandAndChannel=bandAndChannel(1,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU",MPDUAggregationLimit=aggregationLimit);
+        apSLOCfg = wlanDeviceConfig(Mode="AP", MCS=mcs, BandAndChannel=bandAndChannel(1,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU",MPDUAggregationLimit=aggregationLimit, ...
+            NumSpaceTimeStreams=2, NumTransmitAntennas=2);
+        staSLOCfg = wlanDeviceConfig(Mode="STA", MCS=mcs, BandAndChannel=bandAndChannel(1,:),ChannelBandwidth=channelBW, TransmissionFormat="EHT-SU",MPDUAggregationLimit=aggregationLimit, ...
+            NumSpaceTimeStreams=2, NumTransmitAntennas=2);
     
         apNode = wlanNode(Position=apPosition,Name="AP",DeviceConfig=apSLOCfg, PHYAbstractionMethod=phyAbstraction,MACFrameAbstraction=macAbstraction);
         if numSTA>0   
