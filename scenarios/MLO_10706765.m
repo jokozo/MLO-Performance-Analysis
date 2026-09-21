@@ -117,6 +117,7 @@ function [thr, avgLatency] = MLO_10706765(randnum, simTime, radius, radiusList, 
     % Run the simulation
     run(networkSimulator,simulationTime);
 
+    apThroughput = throughput(perfViewerObj, apNode.ID);
     avgLatency = averageReceiveLatency(perfViewerObj, staNode.ID);
     thr = apThroughput;
 
