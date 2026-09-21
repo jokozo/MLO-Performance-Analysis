@@ -62,7 +62,7 @@ function [thr, latency50, latency99] = MLO_10293865(randnum, simTime, radius, is
     [pktSize, dataRate, onTime, offTime] = generateTrafficParams(maxThr, 1, expectedLoad);
    
     trafficSource = networkTrafficOnOff(DataRate=dataRate,PacketSize=pktSize,OnTime=onTime,OffTime=offTime);       
-    addTrafficSource(staNode,trafficSource,DestinationNode=apNode)
+    addTrafficSource(apNode,trafficSource,DestinationNode=staNode)
     
 
     % Add channel model to the simulator
@@ -77,12 +77,12 @@ function [thr, latency50, latency99] = MLO_10293865(randnum, simTime, radius, is
 
     % Run the simulation
     run(networkSimulator,simulationTime);
-   
+    
     % Calculate throughput at AP
-    apThroughput = throughput(perfViewerObj,staNode.ID);
+    apThroughput = throughput(perfViewerObj,apNode.ID);
     latency50list = getpPacketLatencyVector(perfViewerObj, 50);
     latency99list = getpPacketLatencyVector(perfViewerObj, 99);
 
-    latency50 = latency50list(1,:);
-    latency99 = latency99list(1,:);
+    latency50 = latency50list(2,:);
+    latency99 = latency99list(2,:);
     thr = apThroughput;

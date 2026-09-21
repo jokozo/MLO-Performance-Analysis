@@ -48,14 +48,14 @@ function [thr, avgLatency] = MLO_10706765(randnum, simTime, radius, radiusList, 
            
    
     if isFullBuffer
-        % Associate the STAs to AP MLD and configure uplink full buffer traffic
-        associateStations(apNode,staNode,FullBufferTraffic="UL");
+        % Associate the STAs to AP MLD and configure downlink full buffer traffic
+        associateStations(apNode,staNode,FullBufferTraffic="DL");
     else
         associateStations(apNode,staNode);
         [pktSize, dataRate, onTime, offTime] = generateTrafficParams(maxThr, 1, expectedLoad);
         
         trafficSource = networkTrafficOnOff(DataRate=dataRate,PacketSize=pktSize,OnTime=onTime,OffTime=offTime);       
-        addTrafficSource(staNode,trafficSource,DestinationNode=apNode);
+        addTrafficSource(apNode,trafficSource,DestinationNode=staNode);
         
     end
     
@@ -116,11 +116,8 @@ function [thr, avgLatency] = MLO_10706765(randnum, simTime, radius, radiusList, 
 
     % Run the simulation
     run(networkSimulator,simulationTime);
-   
-    % Calculate throughput at STAs
-    %apThroughput = throughput(perfViewerObj,apNode.ID);
-    staThroughput = throughput(perfViewerObj, staNode.ID);
-    avgLatency = averageReceiveLatency(perfViewerObj, apNode.ID);
-    thr = staThroughput;
+
+    avgLatency = averageReceiveLatency(perfViewerObj, staNode.ID);
+    thr = apThroughput;
 
     

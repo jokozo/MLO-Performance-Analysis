@@ -122,7 +122,7 @@ function [thr, latency50, latency99] = MLO_10293865_4a(randnum, simTime, radiusL
             associateStations(apNodes(linkIdx), staNodes(linkIdx))
             
             traffic(linkIdx) = networkTrafficOnOff(DataRate=dataRate, PacketSize=pktSize, OnTime=onTime, OffTime=offTime);
-            addTrafficSource(staNodes(linkIdx), traffic(linkIdx), DestinationNode=apNodes(linkIdx));
+            addTrafficSource(apNodes(linkIdx), traffic(linkIdx), DestinationNode=staNodes(linkIdx));
          
         end
 
@@ -144,14 +144,7 @@ function [thr, latency50, latency99] = MLO_10293865_4a(randnum, simTime, radiusL
     run(networkSimulator,simulationTime);
    
     % Calculate throughput at AP
-
-    if isMLO
-        apThroughput = throughput(perfViewerObj,[apNodes(:).ID]);
-
-    else 
-        apThroughput = throughput(perfViewerObj,[staNodes(:).ID]);
-
-    end
+    apThroughput = throughput(perfViewerObj,[apNodes(:).ID]);
 
     latency50 = getpPacketLatencyVector(perfViewerObj, 50);
     latency99 = getpPacketLatencyVector(perfViewerObj, 99);

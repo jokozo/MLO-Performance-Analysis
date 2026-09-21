@@ -1,4 +1,4 @@
-mcs = 11;
+mcs = 9;
 radius = 5;
 simTime = 10;
 maxThr = 920;

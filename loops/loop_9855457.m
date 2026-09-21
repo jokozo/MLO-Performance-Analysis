@@ -1,7 +1,7 @@
 mcs = 13;
 simTime = 10;
 channelBW = 80e6;
-radius = 3;
+radius = 1;
 radiusList = [2 4];
 bandAndChannel = [5 1; 6 1];
 maxThr = 1112;

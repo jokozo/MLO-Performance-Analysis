@@ -56,7 +56,7 @@ function latency = MLO_1047571(randnum, simTime, numSTA, radius, channelBW, band
     [pktSize, dataRate, onTime, offTime] = generateTrafficParams(maxThr, numSTA, expectedLoad);
     for staIdx=1:numSTA
         trafficSource(staIdx) = networkTrafficOnOff(DataRate=dataRate,PacketSize=pktSize,OnTime=onTime,OffTime=offTime);       
-        addTrafficSource(staNodes(staIdx),trafficSource(staIdx),DestinationNode=apNode)
+        addTrafficSource(apNode,trafficSource(staIdx),DestinationNode=staNodes(staIdx))
     end
 
     % Add channel model to the simulator
@@ -72,8 +72,6 @@ function latency = MLO_1047571(randnum, simTime, numSTA, radius, channelBW, band
     % Run the simulation
     run(networkSimulator,simulationTime);
    
-    % Calculate throughput at STAs
-    apLatency = averageReceiveLatency(perfViewerObj,[apNode.ID]);
-    %getpPacketLatencyVector(perfViewerObj, 95)
-    latency = apLatency;
+    staLatency = averageReceiveLatency(perfViewerObj,[staNodes(:).ID]);
+    latency = mean(staLatency, "omitnan");
 end
